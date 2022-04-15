@@ -4,7 +4,7 @@ const Partner = require('../models/partner');
 const partnerRouter = express.Router();
 
 partnerRouter.route('/')
-.get((req, res,next) => {
+.get((req, res, next) => {
     Partner.find()
     .then(partners => {
         res.statusCode = 200;
