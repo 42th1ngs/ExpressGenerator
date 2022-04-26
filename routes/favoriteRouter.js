@@ -9,8 +9,8 @@ favoriteRouter.route('/')
 .options(cors.corsWithOptions, (req, res) => res.sendStatus(200))
 .get(cors.cors, authenticate.verifyUser, (req, res, next) => {
     Favorite.find({user: req.user._id})
-    .populate('user')
-    .populate('campsites')
+    .populate('User')
+    .populate('Campsite')
     .then(favorites => {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
@@ -22,8 +22,10 @@ favoriteRouter.route('/')
     .then(favorite => {
         if(favorite) {
             req.body.forEach(fav => {
-                if (!favorite.campsite.includes(fav._id)) {
-                    favorite.campsite.push(fav._id)
+                if (!favorite.campsites.includes(fav._id)) {
+                    if (fav._id) {
+                        favorite.campsites.push(fav._id)
+                    }
                 }
             });
             favorite.save()
@@ -36,7 +38,7 @@ favoriteRouter.route('/')
         } else {
             Favorite.create({
                 user: req.user._id,
-                campsite: req.body
+                campsite: [req.params.campsiteId]
             })
             .then(favorite => {
                 res.statusCode = 200;
@@ -48,7 +50,8 @@ favoriteRouter.route('/')
     });
 })
 .put(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
-    //not supported
+    res.statusCode = 403;
+    res.end(`Post operation not supported on /campsites/${req.params.campsiteId}/comments/${req.params.commentId}`);
 })
 .delete(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
     Favorite.findOneAndDelete({user: req.user._id})
@@ -68,7 +71,8 @@ favoriteRouter.route('/')
 favoriteRouter.route('/:campsiteId')
 .options(cors.corsWithOptions, (req, res) => res.sendStatus(200))
 .get(cors.cors, authenticate.verifyUser, (req, res, next) => {
-    //not supported
+    res.statusCode = 403;
+    res.end(`Post operation not supported on /campsites/${req.params.campsiteId}/comments/${req.params.commentId}`);
 })
 .post(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
     Favorite.findOne( {user: req.user._id} )
@@ -100,7 +104,8 @@ favoriteRouter.route('/:campsiteId')
     .catch(err => next(err));
 })
 .put(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
-    //not supported
+    res.statusCode = 403;
+    res.end(`Post operation not supported on /campsites/${req.params.campsiteId}/comments/${req.params.commentId}`);
 })
 .delete(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
     Favorite.findOne( {user: req.user._id} )

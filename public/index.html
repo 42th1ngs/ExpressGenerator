@@ -4,8 +4,9 @@
 <script>
   // This is called with the results from from FB.getLoginStatus().
   function statusChangeCallback(response) {
-    console.log('statusChangeCallback');
-    console.log(response);
+    console.log('statusChangeCallback Response: ', response. authResponse.accessToken);
+
+    // EAAGxNznJ4TABAAA4zLNoh9DABTh5JxWOlObmK7u9jrSB6fNVUfKaHtu39bwsdcZB4yGIwPj4jFDawqPeg0XwAY9tNpBcRLG9ghe0ftBHAa8ttxhQZAmrheXoOCONx4Dexkw9s5XCa5ZBODkW67t8oU4bYEwo9Suja8qHZCV1BRPd2ob47s31QoZBwDXs2zw8ze6ZAnZ
     // The response object is returned with a status field that lets the
     // app know the current login status of the person.
     // Full docs on the response object can be found in the documentation
